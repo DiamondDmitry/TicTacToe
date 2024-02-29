@@ -40,6 +40,11 @@ namespace TicTacToe
                     gameWon = CheckWin();
                     if (!gameWon)
                     {
+                        if (checkDraw())
+                        {
+                            gameWon = checkDraw();
+                            continue;
+                        }
                         SwitchPlayer();
                         continue;
                     }
@@ -64,9 +69,18 @@ namespace TicTacToe
 
             // Print the winner
             // Напечатать победителя
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"Игрок ({currentPlayer}) победил!");
-            Console.ResetColor();
+            if (checkDraw())
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Ничья, игра завершена!");
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"Игрок ({currentPlayer}) победил!");
+                Console.ResetColor();
+            }
         }
 
         static void DrawBoard()
@@ -142,6 +156,17 @@ namespace TicTacToe
             else if (board[0] == currentPlayer && board[4] == currentPlayer && board[8] == currentPlayer) { return true; }
             else if (board[2] == currentPlayer && board[4] == currentPlayer && board[6] == currentPlayer) { return true; }
             else { return false; }
+        }
+
+        static bool checkDraw()
+        {
+            if (board[0] != '1' && board[1] != '2' && board[2] != '3' &&
+                board[3] != '4' && board[4] != '5' && board[5] != '6' &&
+                board[6] != '7' && board[7] != '8' && board[8] != '9') 
+            {
+                return true;
+            }
+            return false;
         }
 
         static void SwitchPlayer()
